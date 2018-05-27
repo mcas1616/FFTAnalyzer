@@ -38,7 +38,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1851, 8);
+            this.button1.Location = new System.Drawing.Point(52, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(124, 46);
             this.button1.TabIndex = 0;
@@ -55,7 +55,7 @@
             this.scottPlotUC3.Location = new System.Drawing.Point(13, 624);
             this.scottPlotUC3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.scottPlotUC3.Name = "scottPlotUC3";
-            this.scottPlotUC3.Size = new System.Drawing.Size(1962, 343);
+            this.scottPlotUC3.Size = new System.Drawing.Size(1978, 354);
             this.scottPlotUC3.TabIndex = 2;
             // 
             // scottPlotUC1
@@ -78,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2020, 981);
+            this.ClientSize = new System.Drawing.Size(2026, 998);
             this.Controls.Add(this.scottPlotUC3);
             this.Controls.Add(this.scottPlotUC1);
             this.Controls.Add(this.button1);

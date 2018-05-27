@@ -180,7 +180,7 @@ namespace ScottPlot
                 if (Ys[i] > 200)
                 {
                     myBrush[i] = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
-                } else if (Ys[i] > 100)
+                }  else if (Ys[i] > 100)
                 {
                     myBrush[i] = new System.Drawing.SolidBrush(System.Drawing.Color.Yellow);
                 }
@@ -199,23 +199,24 @@ namespace ScottPlot
         public List<SolidBrush[]> historyBrush = new List<SolidBrush[]>();
         public void DrawSpot(SolidBrush[] myBrush, List<Point> points)
         {
-            historyPoints.Add(points);
-            historyBrush.Add(myBrush);
+            if(historyPoints.Count() == 50)
+            {
+                historyPoints.RemoveAt(49);
+            } 
+            
+            historyPoints.Insert(0, points);
+            historyBrush.Insert(0, myBrush);
             try
             {
-                historyPoints.Reverse();
-                historyBrush.Reverse();
 
                 for (int i = 0; i < historyPoints.Count(); i++)
                 {
                     for (int j = 0; j < historyPoints[i].Count() - 1; j++)
                     {
-                        Draw.gfxData.FillRectangle(historyBrush[i][j], new Rectangle(historyPoints[i][j].X, (i * 5), historyPoints[i][j + 1].X, ((i + 1) * 5)));
+                        Draw.gfxData.FillRectangle(historyBrush[i][j], new Rectangle(historyPoints[i][j].X, (i * 2), historyPoints[i][j + 1].X, ((i + 1) * 2)));
                     }
                 }
-
-                historyPoints.Reverse();
-                historyBrush.Reverse();
+                
                 //for(int i = 0; i < points.Count() - 2; i++)
                 //{
                 //    Draw.gfxData.FillRectangle(myBrush[i], new Rectangle(points[i].X, 10, points[i + 1].X, 20));
