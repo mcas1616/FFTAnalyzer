@@ -20,11 +20,13 @@ namespace FFTAnalyzer
         public BufferedWaveProvider bwp;
         public Int32 envelopeMax;
 
-        private int RATE = 350000; // sample rate of the sound card
-        private int BUFFERSIZE = (int)Math.Pow(2, 15); // must be a multiple of 2
-
+        private int RATE = 380000; // sample rate of the sound card
+        private int BUFFERSIZE = (int)Math.Pow(2, 9); // must be a multiple of 2
+        
+        
         public Form1()
         {
+            
             InitializeComponent();
 
             // see what audio devices are available
@@ -34,7 +36,7 @@ namespace FFTAnalyzer
             // get the WaveIn class started
             WaveIn wi = new WaveIn();
             wi.DeviceNumber = 0;
-            wi.WaveFormat = new WaveFormat(RATE, 1);
+            wi.WaveFormat = new WaveFormat(RATE, 16, 1);
             wi.BufferMilliseconds = (int)(BUFFERSIZE / (double)RATE * 1000.0);
 
             // create a wave buffer and start the recording
@@ -67,22 +69,24 @@ namespace FFTAnalyzer
             // convert it to int32 manually (and a double for scottplot)
             int SAMPLE_RESOLUTION = 16;
             int BYTES_PER_POINT = SAMPLE_RESOLUTION / 8;
-            double[] vals = new double[frames.Length / BYTES_PER_POINT];
-            double[] Ys = new double[frames.Length / BYTES_PER_POINT];
-            double[] Xs = new double[frames.Length / BYTES_PER_POINT];
+            int valsSize = frames.Length / BYTES_PER_POINT;
+            //int valsSize = 471998;
+            double[] vals = new double[valsSize]; //471998 -> frames.Length = 943996
+            double[] Ys = new double[valsSize];   //471998 -> frames.Length = 943996
+            double[] Xs = new double[valsSize];   //471998 -> frames.Length = 943996
             for (int i = 0; i < vals.Length; i++)
             {
                 // bit shift the byte buffer into the right variable format
                 byte hByte = frames[i * 2 + 1];
                 byte lByte = frames[i * 2 + 0];
                 vals[i] = (int)(short)((hByte << 8) | lByte);
-                Xs[i] = (double)i / Ys.Length * RATE / 22; // units are in kHz
+                Xs[i] = (double)i / Ys.Length * RATE / 1000.0; // units are in kHz
             }
             
             //update scottplot (FFT, frequency domain)
             Ys = FFT(vals);
-            scottPlotUC1.Xs = Xs.Take(Xs.Length / 2).ToArray();
-            scottPlotUC1.Ys = Ys.Take(Ys.Length / 2).ToArray();
+            scottPlotUC1.Xs = Xs.Take(Xs.Length / 2).ToArray(); //235999 -> Xs.Length = 471998
+            scottPlotUC1.Ys = Ys.Take(Ys.Length / 2).ToArray(); //235999 -> Ys.Lenght = 471998
 
             scottPlotUC3.Xs = Xs.Take(Xs.Length / 2).ToArray();
             scottPlotUC3.Ys = Ys.Take(Ys.Length / 2).ToArray();
@@ -111,8 +115,8 @@ namespace FFTAnalyzer
             Accord.Math.FourierTransform.FFT(fftComplex, Accord.Math.FourierTransform.Direction.Forward);
             for (int i = 0; i < data.Length; i++)
             {
-                fft[i] = fftComplex[i].Magnitude; // back to double
-                //fft[i] = 20 * Math.Log10(fftComplex[i].Magnitude); // convert to dB
+                //fft[i] = fftComplex[i].Magnitude; // back to double
+                fft[i] = 20 * Math.Log10(fftComplex[i].Magnitude); // convert to dB
             }
             return fft;
             //todo: this could be much faster by reusing variables

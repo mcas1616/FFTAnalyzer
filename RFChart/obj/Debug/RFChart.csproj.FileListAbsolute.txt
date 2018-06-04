@@ -1,0 +1,15 @@
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\RFChart.csprojResolveAssemblyReference.cache
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\RFChart.Properties.Resources.resources
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\ScottPlot.ScottPlotUC.resources
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\ScottPlot.ucInteractive.resources
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\RFChart.csproj.GenerateResource.Cache
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\RFChart.csproj.CoreCompileInputs.cache
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\bin\Debug\RFChart.exe.config
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\bin\Debug\RFChart.exe
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\bin\Debug\RFChart.pdb
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\bin\Debug\ScottPlot.dll
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\bin\Debug\ScottPlot.pdb
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\bin\Debug\ScottPlot.xml
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\RFChart.exe
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\RFChart.pdb
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\RFChart\obj\Debug\RFChart.DoubleBufferedPanel.resources

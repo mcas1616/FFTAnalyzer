@@ -177,10 +177,10 @@ namespace ScottPlot
             SolidBrush[] myBrush = new SolidBrush[Ys.Length];
             for (int i = 0; i < Ys.Length; i++)
             {
-                if (Ys[i] > 200)
+                if (Ys[i] > 50)
                 {
                     myBrush[i] = new System.Drawing.SolidBrush(System.Drawing.Color.Red);
-                }  else if (Ys[i] > 100)
+                }  else if (Ys[i] > 35)
                 {
                     myBrush[i] = new System.Drawing.SolidBrush(System.Drawing.Color.Yellow);
                 }
@@ -195,13 +195,14 @@ namespace ScottPlot
 
             DrawSpot(myBrush, points);
         }
+
         public List<List<Point>> historyPoints = new List<List<Point>>();
         public List<SolidBrush[]> historyBrush = new List<SolidBrush[]>();
         public void DrawSpot(SolidBrush[] myBrush, List<Point> points)
         {
-            if(historyPoints.Count() == 50)
+            if(historyPoints.Count() == 100)
             {
-                historyPoints.RemoveAt(49);
+                historyPoints.RemoveAt(99);
             } 
             
             historyPoints.Insert(0, points);

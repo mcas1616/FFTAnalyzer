@@ -1,0 +1,10 @@
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\bin\Debug\Spectrum.exe.config
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\bin\Debug\Spectrum.exe
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\bin\Debug\Spectrum.pdb
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\obj\Debug\Spectrum.csprojResolveAssemblyReference.cache
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\obj\Debug\Spectrum.Form1.resources
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\obj\Debug\Spectrum.Properties.Resources.resources
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\obj\Debug\Spectrum.csproj.GenerateResource.Cache
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\obj\Debug\Spectrum.csproj.CoreCompileInputs.cache
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\obj\Debug\Spectrum.exe
+C:\Users\MCAS\Documents\GitHub\FFTAnalyzer\Spectrum\obj\Debug\Spectrum.pdb
