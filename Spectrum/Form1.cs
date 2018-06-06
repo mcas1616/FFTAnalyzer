@@ -29,7 +29,7 @@ namespace Spectrum
             WaterFallGuidepanelDisp.Draw();
         }
 
-        private async void btnRandomData_Click(object sender, EventArgs e)
+        private void btnRandomData_Click(object sender, EventArgs e)
         {
             //Random Data
             int bitLength = int.Parse(tbBitLength.Text);
@@ -37,7 +37,6 @@ namespace Spectrum
             var byteRandomData = bitRandomData.ToByteArray();
 
             //Creat Buffer
-            
             var stream = new MemoryStream(byteRandomData);
             var result = Buffer.ReadFully(stream, 32768);
 
