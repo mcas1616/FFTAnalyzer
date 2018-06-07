@@ -36,7 +36,7 @@ namespace Spectrum
             this.Name = "panelDisp";
             this.Size = new Size(1534, 815);
             this.TabIndex = 1;
-            this.Paint += new PaintEventHandler(panelMain_Paint);
+            this.Paint += new PaintEventHandler(panelWaterFall_Paint);
 
             historyPointBrush = new List<PointBrush>();
         }
@@ -88,10 +88,11 @@ namespace Spectrum
         internal void Clear()
         {
             historyPointBrush = new List<PointBrush>();
-            this.Invalidate();
+            //this.Invalidate();
+            this.Refresh();
         }
 
-        private void panelMain_Paint(object sender, PaintEventArgs e)
+        private void panelWaterFall_Paint(object sender, PaintEventArgs e)
         {
             for (int i = 0; i < historyPointBrush.Count; i++)
             {
