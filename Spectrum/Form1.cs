@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -10,8 +11,8 @@ namespace Spectrum
     {
         private readonly RandomData RandomData;
         private readonly Buffer Buffer;
-        
-        private readonly DoubleBufferedWaterFallPanel WaterFallpanelDisp;
+
+        //public DoubleBufferedWaterFallPanel WaterFallpanelDisp;
         private readonly DoubleBufferedWaterFallGuidePanel WaterFallGuidepanelDisp;
         private readonly DoubleBufferedMainPanel panelDisp;
         private double[] Ys;
@@ -19,6 +20,28 @@ namespace Spectrum
         private Point _offsetPoint;
         private bool bLMouseDown;
         private Point ptMouseDown;
+        private DoubleBufferedMainPanel panelDispWaterFall;
+        private List<PointBrush> historyPointBrush;
+
+        private ChartBoxSize chartBoxSize;
+
+        public class PointBrush
+        {
+            public double[] yValue;
+            public Brush[] brush;
+
+            public PointBrush(double[] yValue, Brush[] brush)
+            {
+                this.yValue = yValue;
+                this.brush = brush;
+            }
+        }
+
+        public class ChartBoxSize
+        {
+            public double xSize;
+            public double ySize;
+        }
 
         public Form1()
         {
@@ -27,7 +50,7 @@ namespace Spectrum
             RandomData = new RandomData();
             Buffer = new Buffer();
             
-            WaterFallpanelDisp = new DoubleBufferedWaterFallPanel();
+            //WaterFallpanelDisp = new DoubleBufferedWaterFallPanel();
             WaterFallGuidepanelDisp = new DoubleBufferedWaterFallGuidePanel();
 
 
@@ -46,10 +69,82 @@ namespace Spectrum
             panelMain.MouseWheel += panelMain_MouseWheel;
             _zoom = 1;
             this.panelMain.Controls.Add(this.panelDisp);
-            panelWaterFall.Controls.Add(WaterFallpanelDisp);
+
+            this.panelDispWaterFall = new DoubleBufferedMainPanel();
+            this.panelDispWaterFall.BackColor = Color.Black;
+            this.panelDispWaterFall.Dock = DockStyle.Fill;
+            this.panelDispWaterFall.Location = new Point(0, 0);
+            this.panelDispWaterFall.Name = "panelDisp";
+            this.panelDispWaterFall.Size = new Size(1534, 815);
+            this.panelDispWaterFall.TabIndex = 1;
+            this.panelDispWaterFall.Paint += new PaintEventHandler(panelWaterFall_Paint);
+            this.panelDispWaterFall.MouseEnter += new System.EventHandler(this.panelMain_MouseEnter);
+            this.panelDispWaterFall.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelMain_MouseDown);
+            this.panelDispWaterFall.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panelMain_MouseMove);
+            this.panelDispWaterFall.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panelMain_MouseUp);
+            panelWaterFall.MouseWheel += panelMain_MouseWheel;
+
+            historyPointBrush = new List<PointBrush>();
+            panelWaterFall.Controls.Add(this.panelDispWaterFall);
             panelWaterFallGuide.Controls.Add(WaterFallGuidepanelDisp);
             WaterFallGuidepanelDisp.Draw();
+
+            chartBoxSize = new ChartBoxSize()
+            {
+                xSize = (double)this.panelDisp.Width
+            };
         }
+
+        internal void WaterFallPanelDispClear()
+        {
+            historyPointBrush = new List<PointBrush>();
+            //this.Invalidate();
+            this.Refresh();
+        }
+
+        public static Color Rainbow(float progress)
+        {
+            float div = (Math.Abs(progress % 1) * 6);
+            int ascending = (int)((div % 1) * 255);
+            int descending = 255 - ascending;
+
+            switch ((int)div)
+            {
+                case 0:
+                    return Color.FromArgb(255, 255, ascending, 0);
+                case 1:
+                    return Color.FromArgb(255, descending, 255, 0);
+                case 2:
+                    return Color.FromArgb(255, 0, 255, ascending);
+                case 3:
+                    return Color.FromArgb(255, 0, descending, 255);
+                case 4:
+                    return Color.FromArgb(255, ascending, 0, 255);
+                default: // case 5:
+                    return Color.FromArgb(255, 255, 0, descending);
+            }
+        }
+
+        public Brush[] HeatMapColorBrush(double[] value, double min = 0, double max = 255)
+        {
+            Brush[] returnPens = new Brush[value.Length];
+            for (int i = 0; i < value.Length; i++)
+            {
+                returnPens[i] = new SolidBrush(Rainbow((float)value[i] / 255));
+            }
+
+            return returnPens;
+        }
+
+        private void WaterFallPanelDispDraw(double[] yValue)
+        {
+            historyPointBrush.Insert(0, new PointBrush(yValue, HeatMapColorBrush(yValue)));
+
+
+            this.panelDispWaterFall.Invalidate();
+        }
+
+        
 
         private void panelMain_MouseUp(object sender, MouseEventArgs e)
         {
@@ -66,23 +161,13 @@ namespace Spectrum
 
         private void panelMain_MouseMove(object sender, MouseEventArgs e)
         {
-            //DisplayMouseInfo(new Point(e.X, e.Y));
-
             if (bLMouseDown)
             {
-            //    Util.stPoint ptViewport = new Util.stPoint();
-            //    ptViewport.dPointX = e.X + ptGapMouseDown.dPointX;
-            //    ptViewport.dPointY = e.Y + ptGapMouseDown.dPointY;
-
-            //    _GeoMap.SetViewPoint(ptViewport);
-
-            //    //_DrawMap.DrawMapFile();
-            //    panelDisp.Invalidate(false);
-
                 _offsetPoint.X += e.X - ptMouseDown.X;
                 _offsetPoint.Y += e.Y - ptMouseDown.Y;
 
                 this.panelMain.Refresh();
+                this.panelDispWaterFall.Refresh();
             }
         }
 
@@ -96,13 +181,14 @@ namespace Spectrum
                         pos.Y + scrollPosition.Y);
             
             var zoom = _zoom + 0.1f * ((e.Delta > 0) ? 1 : -1);
-            _zoom = Math.Max(0.1f, Math.Min(10.0f, zoom));
+            _zoom = Math.Max(0.1f, Math.Min(100.0f, zoom));
 
             _offsetPoint.X += (int) Math.Round(_zoom * pos.X / oldZoom) -
                              (int) cursorOffset.X;
             _offsetPoint.Y = 0;
 
             this.panelMain.Refresh();
+            this.panelDispWaterFall.Refresh();
 
         }
 
@@ -162,23 +248,63 @@ namespace Spectrum
             }
         }
 
+        private void panelWaterFall_Paint(object sender, PaintEventArgs e)
+        {
+            for (int i = 0; i < historyPointBrush.Count; i++)
+            {
+                var pointBrush = historyPointBrush[i];
+                float xTern = (float)this.panelDispWaterFall.Size.Width / (float)pointBrush.yValue.Length * (float)_zoom; ;
+                float yTern = 5;
+
+                for (int j = 0; j < pointBrush.brush.Length; j++)
+                {
+                    if (_offsetPoint.X < 0)
+                    {
+                        _offsetPoint.X = 0;
+                    }
+                    else if (_offsetPoint.X > chartBoxSize.xSize)
+                    {
+                        _offsetPoint.X = (int)chartBoxSize.xSize;
+                    }
+
+                    if (j == 0)
+                    {
+                        e.Graphics.FillRectangle(pointBrush.brush[j], (float)0 - _offsetPoint.X, (float)i * yTern , (float)xTern / 2,
+                            (float)yTern);
+                    }
+
+                    e.Graphics.FillRectangle(pointBrush.brush[j], (float)(j * xTern) - (xTern / 2) - _offsetPoint.X, (float)i * yTern, (float)xTern,
+                        (float)yTern);
+                }
+            }
+        }
+
         private void panelMain_Paint(object sender, PaintEventArgs e)
         {
             if (Ys == null) return;
             float xTern = (float)this.panelDisp.Size.Width / (float)Ys.Length * (float) _zoom;
+            chartBoxSize.xSize = Ys.Length * xTern;
             var _pen = new Pen(Color.Red, 1);
             for (int i = 0; i < Ys.Length; i++)
             {
                 if (_offsetPoint.X < 0)
                 {
                     _offsetPoint.X = 0;
-                } else if (_offsetPoint.X > this.panelDisp.Size.Width)
-                {
-                    _offsetPoint.X = this.panelDisp.Size.Width;
                 }
-                
+                else if (_offsetPoint.X > chartBoxSize.xSize - this.panelDisp.Size.Width)
+                {
+                    _offsetPoint.X = (int)chartBoxSize.xSize - this.panelDisp.Size.Width;
+                }
+
                 e.Graphics.DrawLine(_pen, (float)(i * xTern) - _offsetPoint.X, (float)this.panelDisp.Size.Height, (float)(i * xTern) -_offsetPoint.X, (float)(this.panelDisp.Size.Height - Ys[i]));
             }
+
+            var frequenctTern = (double) 8000 / Ys.Length;
+            var startFrequency = Math.Round(_offsetPoint.X / xTern * frequenctTern);
+            lbFrequectMin.Text = startFrequency.ToString();
+
+            var endFrequency = Math.Round((this.panelDisp.Size.Width / xTern * frequenctTern) + startFrequency);
+            lbFrequencyMax.Text = endFrequency.ToString();
         }
 
         internal void panelMainDraw(double[] yValue)
@@ -200,7 +326,7 @@ namespace Spectrum
 
             //map view
             panelMainDraw(result.ToDoubleArray());
-            WaterFallpanelDisp.Draw(result.ToDoubleArray());
+            WaterFallPanelDispDraw(result.ToDoubleArray());
 
             //set component
             tbByteData.Text = byteRandomData.ToStr();
@@ -210,7 +336,7 @@ namespace Spectrum
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            WaterFallpanelDisp.Clear();
+            WaterFallPanelDispClear();
             
             tbBitLength.Text = "";
         }
