@@ -181,6 +181,9 @@ namespace Spectrum
                         pos.Y + scrollPosition.Y);
             
             var zoom = _zoom + 0.1f * ((e.Delta > 0) ? 1 : -1);
+
+            if (zoom < 1)
+                return;
             _zoom = Math.Max(0.1f, Math.Min(100.0f, zoom));
 
             _offsetPoint.X += (int) Math.Round(_zoom * pos.X / oldZoom) -
@@ -191,49 +194,7 @@ namespace Spectrum
             this.panelDispWaterFall.Refresh();
 
         }
-
-        /// <summary>
-        /// Zoom/unzoom the control by a given factor. 
-        /// Factor is applied to the image size.
-        /// </summary>
-        /// <param name="zoom">zoom factor between 0.1 and 8.0</param>
-        /// <param name="pos">position under the cursor which is to be 
-        /// retained</param>
-        private void Zoom(float zoom, PointF pos)
-        {
-
-            // make sure an image is set
-            //if (_pictureBox.Image != null)
-            //{
-            //    float oldZoom = _zoom;
-            //    SizeF imageSize = _pictureBox.Image.Size;
-            //    PointF scrollPosition = _scrollPanel.AutoScrollPosition;
-            //    PointF cursorOffset = new PointF(pos.X + scrollPosition.X,
-            //        pos.Y + scrollPosition.Y);
-
-            //    _zoom = Math.Max(0.1f, Math.Min(8.0f, zoom));
-
-            //    // disable the redraw to prevent flicker
-            //    SetRedraw(_scrollPanel, false);
-
-            //    // scale the zoom box
-            //    _pictureBox.Width = (int)Math.Round(imageSize.Width * _zoom);
-            //    _pictureBox.Height = (int)Math.Round(imageSize.Height * _zoom);
-
-            //    // calculate the new scroll position
-            //    _scrollPanel.AutoScrollPosition = new Point(
-            //        (int)Math.Round(_zoom * pos.X / oldZoom) -
-            //        (int)cursorOffset.X,
-            //        (int)Math.Round(_zoom * pos.Y / oldZoom) -
-            //        (int)cursorOffset.Y);
-            //    _scrollPanel.PerformLayout();
-
-            //    // reenable the redraw
-            //    SetRedraw(_scrollPanel, true);
-            //    _scrollPanel.Refresh();
-            //}
-        }
-
+        
 
         private void panelMain_MouseDown(object sender, MouseEventArgs e)
         {
