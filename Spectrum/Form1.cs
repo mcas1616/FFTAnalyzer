@@ -93,6 +93,7 @@ namespace Spectrum
             {
                 xSize = (double)this.panelDisp.Width
             };
+            
         }
 
         internal void WaterFallPanelDispClear()
@@ -157,6 +158,7 @@ namespace Spectrum
         private void panelMain_MouseEnter(object sender, EventArgs e)
         {
             panelMain.Focus();
+
         }
 
         private void panelMain_MouseMove(object sender, MouseEventArgs e)
@@ -193,6 +195,7 @@ namespace Spectrum
             this.panelMain.Refresh();
             this.panelDispWaterFall.Refresh();
 
+            tbZoom.Text = _zoom.ToString();
         }
         
 
@@ -309,5 +312,92 @@ namespace Spectrum
             tbBitLength.Text = "";
         }
 
+        private void zoomIn_Click(object sender, EventArgs e)
+        {
+            float oldZoom = _zoom;
+            Point pos = new Point(100, 100);
+            PointF scrollPosition = this.panelDisp.AutoScrollPosition;
+            PointF cursorOffset = new PointF(pos.X + scrollPosition.X,
+                        pos.Y + scrollPosition.Y);
+            
+            var zoom = _zoom + 0.1f * 1;
+
+            if (zoom < 1)
+                return;
+            _zoom = Math.Max(0.1f, Math.Min(100.0f, zoom));
+
+            _offsetPoint.X += (int) Math.Round(_zoom * pos.X / oldZoom) -
+                             (int) cursorOffset.X;
+            _offsetPoint.Y = 0;
+
+            this.panelMain.Refresh();
+            this.panelDispWaterFall.Refresh();
+
+            tbZoom.Text = _zoom.ToString();
+
+        }
+
+        private void zoomOut_Click(object sender, EventArgs e)
+        {
+            if (_zoom < 1)
+                return;
+            float oldZoom = _zoom;
+            Point pos = new Point(100, 100);
+            PointF scrollPosition = this.panelDisp.AutoScrollPosition;
+            PointF cursorOffset = new PointF(pos.X + scrollPosition.X,
+                pos.Y + scrollPosition.Y);
+
+            var zoom = _zoom + 0.1f * -1;
+
+            if (zoom < 1)
+                return;
+            _zoom = Math.Max(0.1f, Math.Min(100.0f, zoom));
+
+            _offsetPoint.X += (int)Math.Round(_zoom * pos.X / oldZoom) -
+                              (int)cursorOffset.X;
+            _offsetPoint.Y = 0;
+
+            this.panelMain.Refresh();
+            this.panelDispWaterFall.Refresh();
+
+            tbZoom.Text = _zoom.ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            float oldZoom = _zoom;
+            _zoom = float.Parse(tbZoom.Text);
+            Point pos = new Point(100, 100);
+            PointF scrollPosition = this.panelDisp.AutoScrollPosition;
+            PointF cursorOffset = new PointF(pos.X + scrollPosition.X,
+                pos.Y + scrollPosition.Y);
+            if (_zoom < 1)
+                return;
+
+            _offsetPoint.X += (int)Math.Round(_zoom * pos.X / oldZoom) -
+                              (int)cursorOffset.X;
+            _offsetPoint.Y = 0;
+
+            this.panelMain.Refresh();
+            this.panelDispWaterFall.Refresh();
+
+            tbZoom.Text = _zoom.ToString();
+        }
+
+        private void tbBitLength_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbBitLength.Text))
+                return;
+            var bitLength = double.Parse(tbBitLength.Text);
+            tbByte.Text = Math.Round(bitLength / 8).ToString();
+        }
+
+        private void tbByte_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbByte.Text))
+                return;
+            var byteLength = double.Parse(tbByte.Text);
+            tbBitLength.Text = Math.Round(byteLength * 8).ToString();
+        }
     }
 }

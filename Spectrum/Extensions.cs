@@ -40,10 +40,10 @@ namespace Spectrum
         public static string ToStr(this byte[] bytes)
         {
             string retrnString = "";
-            foreach (var value in bytes)
-            {
-                retrnString += value + "/";
-            }
+            //foreach (var value in bytes)
+            //{
+            //    retrnString += value + "/";
+            //}
             return retrnString;
         }
 
@@ -75,22 +75,22 @@ namespace Spectrum
         {
             string retrnString = "";
 
-            for (int i = 0; i < randBitArray.Length; i++)
-            {
-                if (randBitArray[i] == true)
-                {
-                    retrnString += "1";
-                }
-                else
-                {
-                    retrnString += "0";
-                }
+            //for (int i = 0; i < randBitArray.Length; i++)
+            //{
+            //    if (randBitArray[i] == true)
+            //    {
+            //        retrnString += "1";
+            //    }
+            //    else
+            //    {
+            //        retrnString += "0";
+            //    }
 
-                if (i % 8 == 7)
-                {
-                    retrnString += "/";
-                }
-            }
+            //    if (i % 8 == 7)
+            //    {
+            //        retrnString += "/";
+            //    }
+            //}
             return retrnString;
         }
 

@@ -41,6 +41,12 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.tbBitLength = new System.Windows.Forms.TextBox();
+            this.zoomIn = new System.Windows.Forms.Button();
+            this.zoomOut = new System.Windows.Forms.Button();
+            this.tbZoom = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbByte = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // panelMain
@@ -74,12 +80,12 @@
             this.tbByteData.Multiline = true;
             this.tbByteData.Name = "tbByteData";
             this.tbByteData.ReadOnly = true;
-            this.tbByteData.Size = new System.Drawing.Size(845, 257);
+            this.tbByteData.Size = new System.Drawing.Size(634, 257);
             this.tbByteData.TabIndex = 2;
             // 
             // btnRandomData
             // 
-            this.btnRandomData.Location = new System.Drawing.Point(1715, 774);
+            this.btnRandomData.Location = new System.Drawing.Point(1715, 799);
             this.btnRandomData.Name = "btnRandomData";
             this.btnRandomData.Size = new System.Drawing.Size(252, 71);
             this.btnRandomData.TabIndex = 3;
@@ -154,13 +160,77 @@
             this.tbBitLength.Size = new System.Drawing.Size(100, 31);
             this.tbBitLength.TabIndex = 9;
             this.tbBitLength.Text = "32768";
+            this.tbBitLength.TextChanged += new System.EventHandler(this.tbBitLength_TextChanged);
+            // 
+            // zoomIn
+            // 
+            this.zoomIn.Location = new System.Drawing.Point(1530, 710);
+            this.zoomIn.Name = "zoomIn";
+            this.zoomIn.Size = new System.Drawing.Size(71, 46);
+            this.zoomIn.TabIndex = 10;
+            this.zoomIn.Text = "+";
+            this.zoomIn.UseVisualStyleBackColor = true;
+            this.zoomIn.Click += new System.EventHandler(this.zoomIn_Click);
+            // 
+            // zoomOut
+            // 
+            this.zoomOut.Location = new System.Drawing.Point(1607, 710);
+            this.zoomOut.Name = "zoomOut";
+            this.zoomOut.Size = new System.Drawing.Size(73, 46);
+            this.zoomOut.TabIndex = 11;
+            this.zoomOut.Text = "-";
+            this.zoomOut.UseVisualStyleBackColor = true;
+            this.zoomOut.Click += new System.EventHandler(this.zoomOut_Click);
+            // 
+            // tbZoom
+            // 
+            this.tbZoom.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbZoom.Location = new System.Drawing.Point(1530, 762);
+            this.tbZoom.Name = "tbZoom";
+            this.tbZoom.Size = new System.Drawing.Size(71, 38);
+            this.tbZoom.TabIndex = 12;
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(1608, 762);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(72, 49);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "↵";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1715, 762);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 25);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Byte :";
+            // 
+            // tbByte
+            // 
+            this.tbByte.Location = new System.Drawing.Point(1840, 756);
+            this.tbByte.Name = "tbByte";
+            this.tbByte.Size = new System.Drawing.Size(100, 31);
+            this.tbByte.TabIndex = 9;
+            this.tbByte.Text = "4096";
+            this.tbByte.TextChanged += new System.EventHandler(this.tbByte_TextChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1993, 964);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.tbZoom);
+            this.Controls.Add(this.zoomOut);
+            this.Controls.Add(this.zoomIn);
+            this.Controls.Add(this.tbByte);
             this.Controls.Add(this.tbBitLength);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.panelWaterFallGuide);
@@ -196,6 +266,12 @@
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbBitLength;
+        private System.Windows.Forms.Button zoomIn;
+        private System.Windows.Forms.Button zoomOut;
+        private System.Windows.Forms.TextBox tbZoom;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox tbByte;
     }
 }
 
