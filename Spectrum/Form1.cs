@@ -215,7 +215,7 @@ namespace Spectrum
             {
                 var pointBrush = historyPointBrush[i];
                 float xTern = (float)this.panelDispWaterFall.Size.Width / (float)pointBrush.yValue.Length * (float)_zoom; ;
-                float yTern = 5;
+                float yTern = 1;
 
                 for (int j = 0; j < pointBrush.brush.Length; j++)
                 {
@@ -245,7 +245,9 @@ namespace Spectrum
             if (Ys == null) return;
             float xTern = (float)this.panelDisp.Size.Width / (float)Ys.Length * (float) _zoom;
             chartBoxSize.xSize = Ys.Length * xTern;
-            var _pen = new Pen(Color.Red, 1);
+
+            var brush = new SolidBrush(Color.Red);
+            float xPoint, yPoint, width, height;
             for (int i = 0; i < Ys.Length; i++)
             {
                 if (_offsetPoint.X < 0)
@@ -257,7 +259,12 @@ namespace Spectrum
                     _offsetPoint.X = (int)chartBoxSize.xSize - this.panelDisp.Size.Width;
                 }
 
-                e.Graphics.DrawLine(_pen, (float)(i * xTern) - _offsetPoint.X, (float)this.panelDisp.Size.Height, (float)(i * xTern) -_offsetPoint.X, (float)(this.panelDisp.Size.Height - Ys[i]));
+                xPoint = (float) (i * xTern) - _offsetPoint.X;
+                yPoint = (float) (this.panelDisp.Size.Height - Ys[i]);
+                width = (float) xTern;
+                height = (float)this.panelDisp.Size.Height - yPoint;
+
+                e.Graphics.FillRectangle(brush, xPoint, yPoint, width, height);
             }
 
             var frequenctTern = (double) 8000 / Ys.Length;
